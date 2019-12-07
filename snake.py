@@ -4,7 +4,8 @@
 		          generally
 	-Allow game to return a new list of actions that skips over invalid actions,
 	 then replace the individual with that
-	-
+	-Adjust mutation to replace more actions when the score is higher - 
+	 higher score = longer length = more actions required to get untrapped
 
 """
 
