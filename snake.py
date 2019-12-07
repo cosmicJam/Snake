@@ -29,7 +29,7 @@ data = []
 
 
 # Problem parameters
-NUM_DIRECT = 10            # number of directions in a given individual
+NUM_DIRECT = 4 # number of directions in a given individual
 
 
 # algorithm parameters
@@ -59,15 +59,15 @@ def print_logbook_row(r):
 
 # FITNESS FUNCTION #TODO
 def eval_(indiv):
-
+	pass
 
 # MUTATION #TODO
 def mutation(individual, indpb):
-
+	pass
 
 #TODO
 def get_direct():
-
+	pass
 
 
 # main function
