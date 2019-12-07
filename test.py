@@ -13,7 +13,7 @@ def print_outcome(result):
 	print("Time:  " + str(result[2]))
 
 actions_test = [1,1,1,1,1,3,3,3,3,3,3,0,2,1,1]
-actions = [random.randrange(4) for i in range(1000)]
+actions = [random.randrange(4) for i in range(10000)]
 
 app = game.App()
 
@@ -22,14 +22,14 @@ app = game.App()
 #
 
 #result = app.run(
-#	actions = actions,
-#	clock = app.WARP, # VERY_SLOW, SLOW, NORMAL, FAST, VERY_FAST, WARP, NO_CLOCK
-#	map_size = 10,
-#	square_size = 20,
-#	random_food = False,
-#	end_on_collisions = True,
-#	wait_on_end = False,
-#	verbose = False
+	#actions = actions,
+	#clock = app.NORMAL, # VERY_SLOW, SLOW, NORMAL, FAST, VERY_FAST, WARP, NO_CLOCK
+	#map_size = 5,
+	#square_size = 20,
+	#random_food = False,
+	#end_on_collisions = False,
+	#wait_on_end = 2000,
+	#verbose = False
 #)
 #print_outcome(result)
 
@@ -40,7 +40,7 @@ app = game.App()
 #	square_size = 20,
 #	random_food = False,
 #	end_on_collisions = False,
-#	wait_on_end = False,
+#	wait_on_end = 2000,
 #	verbose = True
 #)
 #print_outcome(result)
@@ -52,12 +52,12 @@ app = game.App()
 #
 
 app.start(
-	clock = app.WARP,
+	clock = app.NORMAL,
 	map_size = 5,
 	square_size = 20,
 	random_food = False,
 	end_on_collisions = False,
-	wait_on_end = False,
+	wait_on_end = 2000,
 	verbose = False
 )
 
