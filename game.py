@@ -237,7 +237,7 @@ class App:
 		# =================================
 		
 		# Invalid action
-		if invalid_move == 1:# and self.verbose:
+		if invalid_move == 1 and self.verbose:
 			print("INVALID MOVE - FROM " + str(self.player.dir) + " TO " + str(action))
 		
 		# Wall collision
@@ -301,10 +301,10 @@ class App:
 	):
 		self.start(clock, map_size, square_size, random_food, end_on_collisions, wait_on_end, verbose, grow_length)
 		
-		#if clock != 0:
-			#pygame.event.pump()
-			#self.on_render()
-			#pygame.time.wait(clock)
+		if clock != 0:
+			pygame.event.pump()
+			self.on_render()
+			pygame.time.wait(clock)
 		
 		ret = 0
 		for i in range(0, len(actions)):
