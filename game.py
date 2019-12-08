@@ -55,7 +55,7 @@ class Player:
 		invalid_move = 0
 		
 		if new_dir < 0 or new_dir > 3:
-			if self.verbose: print("INVALID DIRECTION: " + str(new_dir))
+			print("INVALID DIRECTION: " + str(new_dir))
 			return False
 		
 		# Move head
@@ -237,8 +237,8 @@ class App:
 		# =================================
 		
 		# Invalid action
-		if invalid_move == 1 and self.verbose:
-			print("INVALID MOVE")
+		if invalid_move == 1:# and self.verbose:
+			print("INVALID MOVE - FROM " + str(self.player.dir) + " TO " + str(action))
 		
 		# Wall collision
 		if invalid_move == 2 and self.end_on_collisions:

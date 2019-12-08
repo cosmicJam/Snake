@@ -6,6 +6,8 @@
 	 then replace the individual with that
 	-Adjust mutation to replace more actions when the score is higher - 
 	 higher score = longer length = more actions required to get untrapped
+	-Genome generation:
+		?Look at prev 20 actions to disallow running into walls
 
 """
 
@@ -55,14 +57,14 @@ NUM_DIRECT = 4
 # whether food positions are random or not
 RANDOM_FOOD = False
 # end game as soon as snake dies, or skip poor actions (still counts as move)
-END_ON_COLLISIONS = False
+END_ON_COLLISIONS = True
 # Fitness penalty for every action taken
 TIME_PENALTY = 0.001
 
 # algorithm parameters
 CXPB = 0.9                 # probability that two selected individuals will recombine
 GENS = 100  		 	   # number of generation in the run
-POP_SIZE = 100        	   # number of individuals
+POP_SIZE = 100       	   # number of individuals
 ELITE_NUM = 10
 TOURN_SIZE = 4
 HOF_SIZE = 5               # number of best members in hall of fame
@@ -93,10 +95,15 @@ def mutation_replace_end(individual, indpb=-1):
 	
 	# number of actions to replace
 	to_replace = random.randrange(1, 16, 1)
-		
-	for i in range(max(last_action - to_replace, 0), len(individual), 1):
-		individual[i] = random.randrange(NUM_DIRECT)
 	
+	replace_idx = max(last_action - to_replace, 0)
+	replace_rng = len(individual) - replace_idx
+	
+	genome = get_genome(replace_rng)
+	
+	for i in range(replace_idx, len(individual), 1):
+		individual[i] = genome[i - replace_idx]
+		
 	return individual,
 
 def mutation(individual, indpb=-1):
@@ -111,6 +118,34 @@ def crossover_null(ind1, ind2):
 
 def get_direct():
 	return random.randrange(NUM_DIRECT)
+
+def get_genome(num_alleles = NUM_ACTIONS):
+	genome = list()
+	
+	LEFT = 0
+	RIGHT = 1
+	UP = 2
+	DOWN = 3
+	
+	# Generate valid move
+	# There should never be a 0 and 1, or a 2 and 3, adjacent anywhere in the
+	#     genome
+	prev_action = RIGHT
+	for i in range(0, num_alleles):
+		new_action = random.randrange(NUM_DIRECT - 1)
+		
+		if prev_action == DOWN and new_action == UP: new_action = DOWN
+		#if prev_action == UP: pass
+		elif prev_action == LEFT and new_action == RIGHT: new_action = DOWN
+		elif prev_action == RIGHT and new_action == LEFT: new_action = DOWN
+		
+		prev_action = new_action
+		genome.append(new_action)
+	
+	# Note: If end_on_collisions is False, invalid moves can still be generated,
+	#       since some actions will have no effect
+	
+	return genome
 	
 def evaluate(individual):
 	clock = app.NO_CLOCK
@@ -223,7 +258,7 @@ toolbox = base.Toolbox()
 # THIS IS WHERE YOU CREATE THE REPRESENTATION
 #Structure initializers
 toolbox.register("direction", get_direct)
-toolbox.register("genome", tools.initRepeat, list, toolbox.direction, NUM_ACTIONS)
+toolbox.register("genome", get_genome)
 toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.genome)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
